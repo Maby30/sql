@@ -1,0 +1,58 @@
+ drop database mydb;
+ create database mydb ;
+ use mydb;
+ create table cliente (
+    id_cliente int not null auto_increment,
+    user varchar (50) not null, 
+    senha varchar(50) not null,
+    telefone bigint(11) not null,
+    cpf bigint(11) not null, 
+    alergias varchar(50) not null, 
+    email varchar(50) not null,
+    bloqueado varchar (1) default 'n' check ('bloqueado' in ('s','n')),
+    nome varchar (50) not null,
+    compareceu varchar (1) default 'n' check('compareceu' in ('s','n')),
+    ultimo_acesso date not null,
+    nasc date not null,
+    acesso int not null,
+    primary key id_cliente;
+
+
+    create table  procedimento(
+        id_procedimento int not null auto_increment,
+        tipo varchar(50) not null,
+        tempo datetime not null,
+        valor float(5,2) not null,
+        imagem varchar(255) not null,
+        nome varchar(45) not null,
+        primary key (id_procedimento));
+    
+
+    create table  profissional (
+        id_profissional int not null auto_increment,
+        nome varchar(50) not null,
+        cpf bigint(11) not null,
+        especializacao varchar(50) not null,
+        telefone bigint(11) not null,
+        carga_horaria datetime not null,
+        carga_semanal date not null,
+        primary key (id_profissional));
+
+    create table agenda (
+        id_agenda int not null auto_increment,
+        data  date not null,
+        horario time not null, 
+        valor float(5,2) not null,
+        compareceu varchar (1) default 'n' check('compareceu' in ('s','n')),
+        fk_id_procedimento int not null,
+        fk_id_profissional int not null,
+        fk_id_cliente int not null, 
+        foreign key (fk_id_procedimento) references procedimento(id_procedimento),
+        foreign key (fk_id_profissional) references profissional(id_procedimento),
+        foreign key (fk_id_cliente) references cliente (id_cliente),
+        primary key (id_agenda));
+
+        create table produto (
+            id_produto int not null auto_increment, 
+            nomeproduto varchar(45) not null,
+            primary key (id_produto));
